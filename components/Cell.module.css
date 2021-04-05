@@ -1,0 +1,26 @@
+.cell {
+  text-align: center;
+  display: flex;
+  margin: 1px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-bottom: 1px solid rgba(166, 168, 179, 0.12);
+  border-right: 1px solid rgba(166, 168, 179, 0.12);
+  box-shadow: 0 10px 20px rgb(0 0 0 / 10%), inset 0 -3px 0 rgb(0 0 0 / 20%);
+}
+
+.cellEmpty {
+  box-shadow: none !important;
+}
+
+.cellEmpty:hover,
+.cellEmpty:focus,
+.cellEmpty:active {
+  background-color: #b9b9b9;
+  cursor: pointer;
+}
+
+.cellText {
+  padding: 0.15em 0;
+}

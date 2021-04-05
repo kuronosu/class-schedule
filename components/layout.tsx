@@ -1,5 +1,5 @@
-import Header from "../components/header";
-import Footer from "../components/footer";
+// import Header from "../components/header";
+// import Footer from "../components/footer";
 import { FC } from "react";
 
 import styles from "./layout.module.css";
@@ -9,7 +9,7 @@ const Layout: FC = function ({ children }) {
     <>
       {/* <Header /> */}
       <main className={styles.main}>{children}</main>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

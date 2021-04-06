@@ -9,7 +9,9 @@ import {
   hideAddForm,
   hideContextMenu,
   hideEditForm,
+  removeLesson,
   showAddForm,
+  showEditForm,
 } from "../reducer/actions";
 import Modal from "../components/modal";
 import AddForm from "../components/add-form";
@@ -86,13 +88,18 @@ export default function Home() {
 
       {config.contextMenu.visible && (
         <CellContextMenu
-          scheduleDispatch={scheduleDispatch}
-          configDispatch={configDispatch}
+          onEdit={() =>
+            config.contextMenu.lesson &&
+            configDispatch(showEditForm(config.contextMenu.lesson))
+          }
+          onDelete={() =>
+            config.contextMenu.lesson &&
+            scheduleDispatch(removeLesson(config.contextMenu.lesson))
+          }
           {...config.contextMenu}
         />
       )}
 
-      <button onClick={() => save(schedule)}>Guardar</button>
       <ScheduleComponent
         onEmptyCellClicked={(d, h) => configDispatch(showAddForm(d, h))}
         scheduleDispatch={scheduleDispatch}

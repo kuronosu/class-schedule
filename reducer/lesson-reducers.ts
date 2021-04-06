@@ -5,6 +5,7 @@ import {
   Lesson,
   Schedule,
 } from "../lib/schedule-utils";
+import { save } from "../lib/storage";
 import {
   Action,
   addLessonAction,
@@ -51,8 +52,10 @@ export default function scheduleReducer(
   prevState: Schedule = initialSchedule,
   { type, payload }: Action<any>
 ) {
-  return (scheduleActions[type] || scheduleActions["default"])(
+  const newState = (scheduleActions[type] || scheduleActions["default"])(
     prevState,
     payload
   );
+  save(newState);
+  return newState;
 }

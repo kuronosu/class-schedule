@@ -11,7 +11,12 @@ export type AddFormState = { day: Days; hour: Hours; visible: boolean };
 
 export type EditFormState = { lesson?: Lesson; visible: boolean };
 
-export type ContextMenuState = CellContextMenuProps & { visible: boolean };
+export type ContextMenuState = {
+  xPos: number;
+  yPos: number;
+  visible: boolean;
+  lesson?: Lesson;
+};
 
 export type AppConfig = {
   is12: boolean;

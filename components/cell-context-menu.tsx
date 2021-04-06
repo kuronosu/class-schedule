@@ -1,39 +1,23 @@
-import { Dispatch, FC } from "react";
-import { Lesson } from "../lib/schedule-utils";
+import { FC } from "react";
 import styled from "styled-components";
-import { removeLesson, showEditForm } from "../reducer/actions";
 
 export type CellContextMenuProps = {
   xPos: number;
   yPos: number;
-  lesson?: Lesson;
-  scheduleDispatch?: Dispatch<any>;
-  configDispatch?: Dispatch<any>;
+  onEdit: () => void;
+  onDelete: () => void;
 };
 
 const CellContextMenu: FC<CellContextMenuProps> = ({
   xPos,
   yPos,
-  lesson,
-  scheduleDispatch,
-  configDispatch,
+  onEdit,
+  onDelete,
 }) => {
   return (
     <CellContextMenuContainer style={{ top: yPos, left: xPos }}>
-      <CellContextMenuItem
-        onClick={() =>
-          lesson && configDispatch && configDispatch(showEditForm(lesson))
-        }
-      >
-        edit
-      </CellContextMenuItem>
-      <CellContextMenuItem
-        onClick={() =>
-          lesson && scheduleDispatch && scheduleDispatch(removeLesson(lesson))
-        }
-      >
-        delete
-      </CellContextMenuItem>
+      <CellContextMenuItem onClick={onEdit}>edit</CellContextMenuItem>
+      <CellContextMenuItem onClick={onDelete}>delete</CellContextMenuItem>
     </CellContextMenuContainer>
   );
 };

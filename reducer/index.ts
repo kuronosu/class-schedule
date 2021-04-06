@@ -19,8 +19,8 @@ export type ContextMenuState = {
 };
 
 export type StorageState = {
-  loading: boolean;
-  successful: boolean;
+  save: { inProgress: boolean; successful: boolean };
+  load: { inProgress: boolean };
 };
 
 export type AppConfig = {
@@ -32,8 +32,8 @@ export type AppConfig = {
 };
 
 export const defaultStorageState: StorageState = {
-  loading: false,
-  successful: true,
+  save: { inProgress: false, successful: false },
+  load: { inProgress: true },
 };
 
 export const defaultAddFormState: AddFormState = {

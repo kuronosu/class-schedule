@@ -62,9 +62,11 @@ const ScheduleComponent: FC<ScheduleProps> = function ({
     <div className={styles.scheduleContainer}>
       <div className={styles.schedule}>
         <span className={`${styles.save} .row-1 .column-1`}>
-          {storage.loading
+          {storage.load.inProgress
+            ? "Loading"
+            : storage.save.inProgress
             ? "Saving"
-            : storage.successful
+            : storage.save.successful
             ? "Save successful"
             : "Save failed"}
         </span>

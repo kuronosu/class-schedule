@@ -10,9 +10,11 @@ import {
   hideAddForm,
   hideContextMenu,
   hideEditForm,
+  loadSchedule,
   removeLesson,
   saveError,
   saveSuccessful,
+  scheduleLoadFinished,
   setSchedule,
   showAddForm,
   showEditForm,
@@ -30,7 +32,6 @@ import CellContextMenu from "../components/cell-context-menu";
 import EditForm from "../components/edit-form";
 import { useSession } from "next-auth/client";
 import { Repository } from "../lib/storage";
-import { scheduleToJson } from "../lib/storage/convertes";
 import { Session } from "next-auth";
 
 // import lessons from '../schedule.json'
@@ -51,10 +52,7 @@ const save = async (
   Repository(session)
     .save(reducer(schedule, lesson))
     .then(() => dispath(saveSuccessful()))
-    .catch((e) => {
-      console.log(e)
-      dispath(saveError())
-    });
+    .catch(() => dispath(saveError()));
 };
 
 export default function Home() {
@@ -70,12 +68,16 @@ export default function Home() {
   };
 
   useEffect(() => {
+    configDispatch(loadSchedule());
     Repository(session)
       .load()
       .then((loadedSchedule) => {
-        loadedSchedule && scheduleDispatch(setSchedule(loadedSchedule));
+        if (loadedSchedule) {
+          scheduleDispatch(setSchedule(loadedSchedule));
+          configDispatch(scheduleLoadFinished());
+        }
       })
-      .catch((err) => console.log(err));
+      .catch(() => configDispatch(scheduleLoadFinished()));
   }, [session]);
 
   useEffect(() => {

@@ -91,14 +91,40 @@ export const editLesson = (lesson: Lesson): editLessonAction => ({
 
 export const startSaving = (): setSaveStateAction => ({
   type: setSaveStateAction,
-  payload: { loading: true, successful: false },
+  payload: {
+    save: { inProgress: true, successful: false },
+    load: { inProgress: false },
+  },
 });
 
 export const saveSuccessful = (): setSaveStateAction => ({
   type: setSaveStateAction,
-  payload: { loading: false, successful: true },
+  payload: {
+    save: { inProgress: false, successful: true },
+    load: { inProgress: false },
+  },
 });
+
 export const saveError = (): setSaveStateAction => ({
   type: setSaveStateAction,
-  payload: { loading: false, successful: false },
+  payload: {
+    save: { inProgress: false, successful: false },
+    load: { inProgress: false },
+  },
+});
+
+export const loadSchedule = (): setSaveStateAction => ({
+  type: setSaveStateAction,
+  payload: {
+    save: { inProgress: false, successful: true },
+    load: { inProgress: true },
+  },
+});
+
+export const scheduleLoadFinished = (): setSaveStateAction => ({
+  type: setSaveStateAction,
+  payload: {
+    save: { inProgress: false, successful: true },
+    load: { inProgress: false },
+  },
 });

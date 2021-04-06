@@ -2,7 +2,7 @@ import { useEffect, useReducer } from "react";
 import Head from "next/head";
 import Layout from "../components/layout";
 import ScheduleComponent from "../components/schedule";
-import { initialSchedule, Lesson, validateLesson } from "../lib/schedule-utils";
+import { initialSchedule } from "../lib/schedule-utils";
 import {
   addLesson,
   editLesson,
@@ -21,10 +21,10 @@ import { load, save } from "../lib/storage";
 
 // import lessons from '../schedule.json'
 
-// const loadJson = (): Lesson[] =>
-//  lessons.map((l) => validateLesson(l)).filter((el) => el !== null);
-
-var g_ctxm_v = false;
+// const loadJson = (): Lesson[] =>{
+//   console.log(lessons.map((l) => validateLessonToLoad(l)).filter((el) => el !== null))
+//   return lessons.map((l) => validateLessonToLoad(l)).filter((el) => el !== null);
+// }
 
 export default function Home() {
   const [schedule, scheduleDispatch] = useReducer(
@@ -33,13 +33,9 @@ export default function Home() {
   );
   const [config, configDispatch] = useReducer(configReducer, initialConfig);
 
-  // Needed to work inside effect
-  g_ctxm_v = config.contextMenu.visible;
   const mangeClick = () => {
-    if (g_ctxm_v) return configDispatch(hideContextMenu());
+    if (config.contextMenu.visible) return configDispatch(hideContextMenu());
   };
-
-  // Effects
 
   useEffect(() => {
     load().forEach((el) => scheduleDispatch(addLesson(el)));
@@ -48,7 +44,7 @@ export default function Home() {
   useEffect(() => {
     document.addEventListener("click", mangeClick);
     return () => document.removeEventListener("click", mangeClick);
-  }, []);
+  }, [config.contextMenu.visible]);
 
   return (
     <Layout>
@@ -65,6 +61,7 @@ export default function Home() {
           day={config.addForm.day}
           hour={config.addForm.hour}
           is12={config.is12}
+          schedule={schedule}
           onOK={(lesson) => {
             configDispatch(hideAddForm());
             scheduleDispatch(addLesson(lesson));

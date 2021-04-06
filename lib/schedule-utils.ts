@@ -1,4 +1,5 @@
 import { Color, validateColor } from "./colors";
+import { errors } from "./errors";
 
 export type Days = "MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT";
 export const days: Days[] = ["MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -120,13 +121,27 @@ export function lessonsWithDuration(
   return parsedLessons;
 }
 
+export function validateLessonToAdd(
+  schedule: Schedule,
+  lesson: Lesson
+): [boolean, string] {
+  if (isOverlap(schedule, lesson)) return [false, errors.OVERLAP_ERROR];
+  if (!validDay(lesson.day)) return [false, errors.INVALID_DAY_ERROR];
+  if (lesson.hour < 7) return [false, errors.INVALID_HOUR_ERROR];
+  if (lesson.hour > 20) return [false, errors.INVALID_HOUR_ERROR];
+  if (lesson.hour + lesson.duration > 21)
+    return [false, errors.INVALID_DURATION_ERROR];
+  if (lesson.name == "") return [false, errors.INVALID_NAME_ERROR];
+  return [true, ""];
+}
+
 const isString = (value: any): boolean => typeof value === "string";
 const isNumber = (value: any): boolean => typeof value === "number";
 const validDay = (day: string): boolean => days.includes(day as Days);
 const validHour = (h: number): boolean => hours.includes(h as Hours);
 const validDuration = (h: number, d: number) => h + d <= 22;
 
-export function validateLesson(lesson: any): Lesson | null {
+export function validateLessonToLoad(lesson: any): Lesson | null {
   const { day, hour, name, url, duration, color } = lesson;
   return isString(day) &&
     validDay(day) &&

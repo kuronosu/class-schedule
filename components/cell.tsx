@@ -26,10 +26,15 @@ const Cell: FC<Props> = ({ lesson, handleContextMenu }) => {
       style={style}
     >
       <span className={styles.cellText}>
-        {name} -{" "}
-        <a href={url} target="_blank">
-          Enlace
-        </a>
+        {name}
+        {url && (
+          <>
+            {" - "}
+            <a href={url} target="_blank">
+              Enlace
+            </a>
+          </>
+        )}
       </span>
     </div>
   );

@@ -3,7 +3,7 @@ import {
   hours,
   Lesson,
   Schedule,
-  validateLesson,
+  validateLessonToLoad,
 } from "./schedule-utils";
 
 export const SCHEDULE_KEY = "SCHEDULE_KEY";
@@ -13,7 +13,7 @@ export const load = (): Lesson[] => {
   if (raw == null) return [];
   try {
     return JSON.parse(raw)
-      .map((l: any) => validateLesson(l))
+      .map((l: any) => validateLessonToLoad(l))
       .filter((el: Lesson | null) => el !== null);
   } catch (error) {
     return [];

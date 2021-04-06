@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
-import { Color, validateColor, defaultColor } from "../lib/colors";
-import { Days, Hours, Lesson } from "../lib/schedule-utils";
+import { Color, validateColor } from "../lib/colors";
+import { Lesson } from "../lib/schedule-utils";
+import { getErrorMessage, errors } from "../lib/errors";
 import { formatHour } from "../lib/time";
 import { EditFormState } from "../reducer";
 import {
@@ -12,6 +13,7 @@ import {
   StyledInputContainer,
   StyledInputField,
   StyledInputLabel,
+  StyledSmallError,
 } from "./add-form";
 
 type EditFormProps = EditFormState & {
@@ -24,12 +26,15 @@ const EditForm: FC<EditFormProps> = ({ lesson, is12, onOK }) => {
     const [name, setName] = useState(lesson.name);
     const [link, setLink] = useState(lesson.url);
     const [color, setColor] = useState(lesson.color);
+    const [error, setError] = useState("");
     return (
       <StyledFormContainer>
         <StyledFormTitle>
           {lesson.day} {formatHour(lesson.hour, is12)} -{" "}
           {formatHour(lesson.hour + lesson.duration, is12)}
         </StyledFormTitle>
+
+        {error && <StyledSmallError>{getErrorMessage(error)}</StyledSmallError>}
 
         <StyledInputContainer>
           <StyledInputField
@@ -73,15 +78,16 @@ const EditForm: FC<EditFormProps> = ({ lesson, is12, onOK }) => {
 
         <StyledConfirmButton
           onClick={() => {
-            if (name.slice() == "" || link.slice() == "") return;
-            onOK({
-              day: lesson.day,
-              hour: lesson.hour,
-              name: name.slice(),
-              url: link.slice(),
-              duration: lesson.duration,
-              color: validateColor(color),
-            });
+            if (name.slice() == "") setError(errors.INVALID_HOUR_ERROR);
+            else
+              onOK({
+                day: lesson.day,
+                hour: lesson.hour,
+                name: name.slice(),
+                url: link.slice(),
+                duration: lesson.duration,
+                color: validateColor(color),
+              });
           }}
         >
           Save

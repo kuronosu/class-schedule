@@ -1,26 +1,19 @@
 import { Actions } from ".";
 import {
+  validateLessonToAdd,
   initialSchedule,
-  isOverlap,
   Lesson,
   Schedule,
 } from "../lib/schedule-utils";
 import {
   Action,
   addLessonAction,
-  editLesson,
   editLessonAction,
   removeLessonAction,
 } from "./actions";
-// SubReducer<Lesson>
+
 export function addLessonReducer(schedule: Schedule, payload: Lesson) {
-  if (
-    isOverlap(schedule, payload) ||
-    payload.hour < 7 ||
-    payload.hour > 20 ||
-    payload.hour + payload.duration > 21
-  )
-    return schedule;
+  if (!validateLessonToAdd(schedule, payload)[0]) return schedule;
   return {
     ...schedule,
     [payload.day]: { ...schedule[payload.day], [payload.hour]: payload },

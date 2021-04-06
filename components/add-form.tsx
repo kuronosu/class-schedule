@@ -1,28 +1,38 @@
 import { FC, useState } from "react";
 import styled from "styled-components";
 import { Color, validateColor, defaultColor } from "../lib/colors";
-import { Days, Hours, Lesson } from "../lib/schedule-utils";
+import {
+  Days,
+  Hours,
+  Lesson,
+  Schedule,
+  validateLessonToAdd,
+} from "../lib/schedule-utils";
 import { formatHour } from "../lib/time";
+import { getErrorMessage } from "../lib/errors";
 
 type AddFormProps = {
   day: Days;
   hour: Hours;
   is12: boolean;
+  schedule: Schedule;
   onOK: (lesson: Lesson) => void;
 };
 
-const AddForm: FC<AddFormProps> = ({ day, hour, is12, onOK }) => {
+const AddForm: FC<AddFormProps> = ({ day, hour, is12, onOK, schedule }) => {
   const [name, setName] = useState("");
   const [duration, setDuration] = useState(1);
   const [link, setLink] = useState("");
   const [color, setColor] = useState(defaultColor);
+  const [error, setError] = useState("");
 
-  useState();
   return (
     <StyledFormContainer>
       <StyledFormTitle>
         {day} {formatHour(hour, is12)} - {formatHour(hour + duration, is12)}
       </StyledFormTitle>
+
+      {error && <StyledSmallError>{getErrorMessage(error)}</StyledSmallError>}
 
       <StyledInputContainer>
         <StyledInputField
@@ -80,15 +90,18 @@ const AddForm: FC<AddFormProps> = ({ day, hour, is12, onOK }) => {
 
       <StyledConfirmButton
         onClick={() => {
-          if (name.slice() == "" || link.slice() == "" || duration <= 0) return;
-          onOK({
+          let lesson: Lesson = {
             day,
             hour,
             name: name.slice(),
             url: link.slice(),
             duration,
             color: validateColor(color),
-          });
+          };
+          let validatioResult = validateLessonToAdd(schedule, lesson);
+          console.log(validatioResult);
+          if (!validatioResult[0]) setError(validatioResult[1]);
+          else onOK(lesson);
         }}
       >
         Save
@@ -105,6 +118,11 @@ export const StyledFormContainer = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   font-size: 25px;
+`;
+
+export const StyledSmallError = styled.small`
+  color: red;
+  margin: 0 auto;
 `;
 
 export const StyledFormTitle = styled.span`

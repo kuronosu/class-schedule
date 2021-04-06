@@ -28,7 +28,21 @@ const EditForm: FC<EditFormProps> = ({ lesson, is12, onOK }) => {
     const [color, setColor] = useState(lesson.color);
     const [error, setError] = useState("");
     return (
-      <StyledFormContainer>
+      <StyledFormContainer
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (name.slice() == "") setError(errors.INVALID_HOUR_ERROR);
+          else
+            onOK({
+              day: lesson.day,
+              hour: lesson.hour,
+              name: name.slice(),
+              url: link.slice(),
+              duration: lesson.duration,
+              color: validateColor(color),
+            });
+        }}
+      >
         <StyledFormTitle>
           {lesson.day} {formatHour(lesson.hour, is12)} -{" "}
           {formatHour(lesson.hour + lesson.duration, is12)}
@@ -56,7 +70,6 @@ const EditForm: FC<EditFormProps> = ({ lesson, is12, onOK }) => {
             placeholder="Link"
             name="link"
             id="link"
-            required={true}
             onChange={(e) => setLink(e.target.value)}
             value={link}
           ></StyledInputField>
@@ -76,22 +89,7 @@ const EditForm: FC<EditFormProps> = ({ lesson, is12, onOK }) => {
           ))}
         </StyledColorContainer>
 
-        <StyledConfirmButton
-          onClick={() => {
-            if (name.slice() == "") setError(errors.INVALID_HOUR_ERROR);
-            else
-              onOK({
-                day: lesson.day,
-                hour: lesson.hour,
-                name: name.slice(),
-                url: link.slice(),
-                duration: lesson.duration,
-                color: validateColor(color),
-              });
-          }}
-        >
-          Save
-        </StyledConfirmButton>
+        <StyledConfirmButton>Save</StyledConfirmButton>
       </StyledFormContainer>
     );
   }

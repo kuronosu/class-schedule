@@ -27,7 +27,23 @@ const AddForm: FC<AddFormProps> = ({ day, hour, is12, onOK, schedule }) => {
   const [error, setError] = useState("");
 
   return (
-    <StyledFormContainer>
+    <StyledFormContainer
+      onSubmit={(e) => {
+        e.preventDefault();
+        let lesson: Lesson = {
+          day,
+          hour,
+          name: name.slice(),
+          url: link.slice(),
+          duration,
+          color: validateColor(color),
+        };
+        let validatioResult = validateLessonToAdd(schedule, lesson);
+        console.log(validatioResult);
+        if (!validatioResult[0]) setError(validatioResult[1]);
+        else onOK(lesson);
+      }}
+    >
       <StyledFormTitle>
         {day} {formatHour(hour, is12)} - {formatHour(hour + duration, is12)}
       </StyledFormTitle>
@@ -68,7 +84,6 @@ const AddForm: FC<AddFormProps> = ({ day, hour, is12, onOK, schedule }) => {
           placeholder="Link"
           name="link"
           id="link"
-          required={true}
           onChange={(e) => setLink(e.target.value)}
           value={link}
         ></StyledInputField>
@@ -88,31 +103,14 @@ const AddForm: FC<AddFormProps> = ({ day, hour, is12, onOK, schedule }) => {
         ))}
       </StyledColorContainer>
 
-      <StyledConfirmButton
-        onClick={() => {
-          let lesson: Lesson = {
-            day,
-            hour,
-            name: name.slice(),
-            url: link.slice(),
-            duration,
-            color: validateColor(color),
-          };
-          let validatioResult = validateLessonToAdd(schedule, lesson);
-          console.log(validatioResult);
-          if (!validatioResult[0]) setError(validatioResult[1]);
-          else onOK(lesson);
-        }}
-      >
-        Save
-      </StyledConfirmButton>
+      <StyledConfirmButton type="submit">Save</StyledConfirmButton>
     </StyledFormContainer>
   );
 };
 
 export default AddForm;
 
-export const StyledFormContainer = styled.div`
+export const StyledFormContainer = styled.form`
   display: flex;
   padding-top: 10px;
   flex-direction: column;

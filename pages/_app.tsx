@@ -1,5 +1,5 @@
-import type { AppProps /*, AppContext */ } from "next/app";
-// import { Provider } from "next-auth/client";
+import type { AppProps } from "next/app";
+import { Provider } from "next-auth/client";
 
 import "../styles/globals.css";
 import Head from "next/head";
@@ -13,9 +13,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           rel="stylesheet"
         />
       </Head>
-      {/* <Provider session={pageProps.session}> */}
+      <Provider session={pageProps.session}>
         <Component {...pageProps} />
-      {/* </Provider> */}
+      </Provider>
     </>
   );
 }

@@ -7,9 +7,12 @@ import {
   defaultContextMenuState,
   defaultEditFormState,
   EditFormState,
+  defaultStorageState,
+  StorageState,
 } from ".";
 import {
   Action,
+  setSaveStateAction,
   toggleAddFormAction,
   toggleContextMenuAction,
   toggleEditFormAction,
@@ -20,6 +23,7 @@ export const initialConfig: AppConfig = {
   addForm: defaultAddFormState,
   editForm: defaultEditFormState,
   contextMenu: defaultContextMenuState,
+  save: defaultStorageState,
 };
 
 function toggleEditFormReducer(
@@ -43,10 +47,18 @@ function toggleContextMenuReducer(
   return { ...prevState, contextMenu: { ...payload } };
 }
 
+function setSaveStateReducer(
+  prevState: AppConfig,
+  payload: StorageState
+): AppConfig {
+  return { ...prevState, save: { ...payload } };
+}
+
 const configActions: Actions<AppConfig> = {
   [toggleAddFormAction]: toggleAddFormReducer,
   [toggleEditFormAction]: toggleEditFormReducer,
   [toggleContextMenuAction]: toggleContextMenuReducer,
+  [setSaveStateAction]: setSaveStateReducer,
   default: (prevState: AppConfig) => prevState,
 };
 

@@ -39,7 +39,6 @@ const AddForm: FC<AddFormProps> = ({ day, hour, is12, onOK, schedule }) => {
           color: validateColor(color),
         };
         let validatioResult = validateLessonToAdd(schedule, lesson);
-        console.log(validatioResult);
         if (!validatioResult[0]) setError(validatioResult[1]);
         else onOK(lesson);
       }}

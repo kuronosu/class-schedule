@@ -1,4 +1,4 @@
-import { Dispatch, FC, useEffect } from "react";
+import { Dispatch, FC } from "react";
 import Cell from "./cell";
 import HourCell from "./hour-cell";
 import EmptyCell from "./empty-cell";
@@ -13,11 +13,13 @@ import {
   Days,
 } from "../lib/schedule-utils";
 import styles from "./schedule.module.css";
-import { showContextMenu, hideContextMenu } from "../reducer/actions";
+import { showContextMenu } from "../reducer/actions";
+import { StorageState } from "../reducer";
 
 export type ScheduleProps = {
-  is12?: boolean;
+  is12: boolean;
   schedule: Schedule;
+  storage: StorageState;
   scheduleDispatch: Dispatch<any>;
   configDispatch: Dispatch<any>;
   onEmptyCellClicked: (day: Days, hour: Hours) => void;
@@ -27,7 +29,8 @@ type DayProps = { lessons: LessonsOfDay };
 
 const ScheduleComponent: FC<ScheduleProps> = function ({
   schedule,
-  is12 = true,
+  is12,
+  storage,
   onEmptyCellClicked,
   configDispatch,
 }) {
@@ -58,7 +61,13 @@ const ScheduleComponent: FC<ScheduleProps> = function ({
   return (
     <div className={styles.scheduleContainer}>
       <div className={styles.schedule}>
-        <span className={`${styles.hour} .row-1 .column-1`} />
+        <span className={`${styles.save} .row-1 .column-1`}>
+          {storage.loading
+            ? "Saving"
+            : storage.successful
+            ? "Save successful"
+            : "Save failed"}
+        </span>
         {days.map((day, dn) => (
           <span key={day} className={`${styles.day} .row-1 .column-${dn + 2}`}>
             {day}

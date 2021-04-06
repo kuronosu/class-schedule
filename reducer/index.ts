@@ -18,11 +18,22 @@ export type ContextMenuState = {
   lesson?: Lesson;
 };
 
+export type StorageState = {
+  loading: boolean;
+  successful: boolean;
+};
+
 export type AppConfig = {
   is12: boolean;
   addForm: AddFormState;
   editForm: EditFormState;
   contextMenu: ContextMenuState;
+  save: StorageState;
+};
+
+export const defaultStorageState: StorageState = {
+  loading: false,
+  successful: true,
 };
 
 export const defaultAddFormState: AddFormState = {

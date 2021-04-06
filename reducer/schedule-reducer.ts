@@ -5,13 +5,17 @@ import {
   Lesson,
   Schedule,
 } from "../lib/schedule-utils";
-import { save } from "../lib/storage";
 import {
   Action,
   addLessonAction,
   editLessonAction,
   removeLessonAction,
+  setScheduleAction,
 } from "./actions";
+
+export function setScheduleReducer(_: Schedule, schedule: Schedule): Schedule {
+  return { ...schedule };
+}
 
 export function addLessonReducer(schedule: Schedule, payload: Lesson) {
   if (!validateLessonToAdd(schedule, payload)[0]) return schedule;
@@ -42,6 +46,7 @@ export function removeLessonReducer(schedule: Schedule, payload: Lesson) {
 }
 
 const scheduleActions: Actions<Schedule> = {
+  [setScheduleAction]: setScheduleReducer,
   [addLessonAction]: addLessonReducer,
   [editLessonAction]: editLessonReducer,
   [removeLessonAction]: removeLessonReducer,
@@ -52,10 +57,8 @@ export default function scheduleReducer(
   prevState: Schedule = initialSchedule,
   { type, payload }: Action<any>
 ) {
-  const newState = (scheduleActions[type] || scheduleActions["default"])(
+  return (scheduleActions[type] || scheduleActions["default"])(
     prevState,
     payload
   );
-  save(newState);
-  return newState;
 }

@@ -25,3 +25,14 @@
   line-height: 50px;
   font-weight: 500;
 }
+
+.save {
+  border-bottom: 1px solid rgba(166, 168, 179, 0.12);
+  border-right: 1px solid rgba(166, 168, 179, 0.12);
+  text-align: end;
+  padding: 14px 20px;
+  letter-spacing: 1px;
+  color: #98a0a6;
+  position: relative;
+  pointer-events: none;
+}

@@ -33,7 +33,6 @@
   text-overflow: ellipsis;
   overflow: hidden;
   display: inherit;
-  z-index: 1;
   line-height: 1.3rem;
 }
 
@@ -63,7 +62,6 @@
   line-height: 1.4rem;
   padding: 0.7rem 0.8rem;
   position: relative;
-  z-index: 10;
   background-color: transparent;
   color: #555;
 }

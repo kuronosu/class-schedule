@@ -56,7 +56,7 @@ const post = async (
       result.matchedCount == 1 &&
       result.modifiedCount == 1
     ) {
-      res.status(200).json({ message: "Saved successfully" });
+      return res.status(200).json({ message: "Saved successfully" });
     }
   } catch (error) {}
   res.status(500).json({ message: "Failed update." });

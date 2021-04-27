@@ -1,17 +1,23 @@
-import Header from "../components/header";
-// import Footer from "../components/footer";
 import { FC } from "react";
-
-import styles from "./layout.module.css";
+import styled from "styled-components";
+import Header from "../components/header";
 
 const Layout: FC = function ({ children }) {
   return (
     <>
       <Header />
-      <main className={styles.main}>{children}</main>
-      {/* <Footer /> */}
+      <StyledMain>{children}</StyledMain>
     </>
   );
 };
+
+const StyledMain = styled.main`
+  padding: 1rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
 
 export default Layout;

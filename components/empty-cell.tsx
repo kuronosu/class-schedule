@@ -1,6 +1,7 @@
 import { FC } from "react";
+import styled from "styled-components";
 import { Days, days, Hours, hours } from "../lib/schedule-utils";
-import styles from "./Cell.module.css";
+import { StyledCell } from "./cell";
 
 type Props = {
   hour: Hours;
@@ -12,13 +13,18 @@ const EmptyCell: FC<Props> = ({ hour, day, onClick }) => {
   const dayIndex = days.indexOf(day) + 2;
   const hourIndex = hours.indexOf(hour) + 2;
   const style = { gridRow: `${hourIndex}`, gridColumn: `${dayIndex}` };
-  return (
-    <div
-      onClick={() => onClick(day, hour)}
-      className={`${styles.cell} ${styles.cellEmpty}`}
-      style={style}
-    ></div>
-  );
+  return <StyledEmptyCell style={style} onClick={() => onClick(day, hour)} />;
 };
+
+const StyledEmptyCell = styled(StyledCell)`
+  box-shadow: none !important;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #b9b9b9;
+    cursor: pointer;
+  }
+`;
 
 export default EmptyCell;

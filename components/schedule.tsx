@@ -1,20 +1,9 @@
 import { Dispatch, FC } from "react";
-import Cell from "./cell";
-import HourCell from "./hour-cell";
-import EmptyCell from "./empty-cell";
-import {
-  Schedule,
-  LessonsOfDay,
-  days,
-  hours,
-  lessonsWithDuration,
-  Lesson,
-  Hours,
-  Days,
-} from "../lib/schedule-utils";
-import { showContextMenu } from "../reducer/actions";
-import { StorageState } from "../reducer";
 import styled from "styled-components";
+import Day from "./day";
+import HourCell from "./hour-cell";
+import { Schedule, days, hours, Hours, Days } from "../lib/schedule-utils";
+import { StorageState } from "../reducer";
 
 export type ScheduleProps = {
   is12: boolean;
@@ -25,8 +14,6 @@ export type ScheduleProps = {
   onEmptyCellClicked: (day: Days, hour: Hours) => void;
 };
 
-type DayProps = { lessons: LessonsOfDay };
-
 const ScheduleComponent: FC<ScheduleProps> = function ({
   schedule,
   is12,
@@ -34,30 +21,6 @@ const ScheduleComponent: FC<ScheduleProps> = function ({
   onEmptyCellClicked,
   configDispatch,
 }) {
-  const Day: FC<DayProps> = ({ lessons }) => (
-    <>
-      {lessonsWithDuration(lessons).map(({ assigned, lesson }) =>
-        assigned ? (
-          <Cell
-            handleContextMenu={(e, lesson) => {
-              e.preventDefault();
-              configDispatch(showContextMenu(e.pageX, e.pageY, lesson));
-            }}
-            lesson={lesson as Lesson}
-            key={`${lesson.day}${lesson.hour}`}
-          />
-        ) : (
-          <EmptyCell
-            key={`${lesson.day}-${lesson.hour}`}
-            hour={lesson.hour}
-            day={lesson.day}
-            onClick={onEmptyCellClicked}
-          />
-        )
-      )}
-    </>
-  );
-
   return (
     <StyleScheduleContainer>
       <StyleSchedule>
@@ -71,19 +34,46 @@ const ScheduleComponent: FC<ScheduleProps> = function ({
             : "Save failed"}
         </StyledSave>
         {days.map((day, dn) => (
-          <StyledDay key={day} style={{ gridColumn: dn + 2 }}>
+          <StyledDay
+            key={day}
+            style={{ gridColumn: dn + 2 }}
+          >
             {day}
           </StyledDay>
         ))}
         {hours.map((hour) => (
           <HourCell key={hour} hour={hour} is12={is12} />
         ))}
-        <Day lessons={schedule.MON} />
-        <Day lessons={schedule.TUE} />
-        <Day lessons={schedule.WED} />
-        <Day lessons={schedule.THU} />
-        <Day lessons={schedule.FRI} />
-        <Day lessons={schedule.SAT} />
+        <Day
+          lessons={schedule.MON}
+          dispatch={configDispatch}
+          onEmptyCellClicked={onEmptyCellClicked}
+        />
+        <Day
+          lessons={schedule.TUE}
+          dispatch={configDispatch}
+          onEmptyCellClicked={onEmptyCellClicked}
+        />
+        <Day
+          lessons={schedule.WED}
+          dispatch={configDispatch}
+          onEmptyCellClicked={onEmptyCellClicked}
+        />
+        <Day
+          lessons={schedule.THU}
+          dispatch={configDispatch}
+          onEmptyCellClicked={onEmptyCellClicked}
+        />
+        <Day
+          lessons={schedule.FRI}
+          dispatch={configDispatch}
+          onEmptyCellClicked={onEmptyCellClicked}
+        />
+        <Day
+          lessons={schedule.SAT}
+          dispatch={configDispatch}
+          onEmptyCellClicked={onEmptyCellClicked}
+        />
       </StyleSchedule>
     </StyleScheduleContainer>
   );

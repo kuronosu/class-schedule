@@ -21,6 +21,7 @@ const ScheduleComponent: FC<ScheduleProps> = function ({
   onEmptyCellClicked,
   configDispatch,
 }) {
+  const today = new Date().getDay();
   return (
     <StyleScheduleContainer>
       <StyleSchedule>
@@ -36,6 +37,7 @@ const ScheduleComponent: FC<ScheduleProps> = function ({
         {days.map((day, dn) => (
           <StyledDay
             key={day}
+            active={today == dn }
             style={{ gridColumn: dn + 2 }}
           >
             {day}
@@ -99,7 +101,7 @@ const StyleSchedule = styled.div`
   overflow: auto;
 `;
 
-const StyledDay = styled.span`
+const StyledDay = styled.span<{active: boolean}>`
   font-size: 12px;
   text-transform: uppercase;
   color: #99a1a7;
@@ -108,6 +110,13 @@ const StyledDay = styled.span`
   line-height: 50px;
   font-weight: 500;
   grid-row: 1;
+
+  ${({ active }) =>
+    active &&
+    `
+    background-color: #f4f5f6;
+    color: black;
+  `}
 `;
 
 const StyledSave = styled.span`

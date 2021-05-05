@@ -21,6 +21,11 @@ const ScheduleComponent: FC<ScheduleProps> = function ({
   onEmptyCellClicked,
   configDispatch,
 }) {
+  const [today, setToday] = useState(0);
+  useEffect(() => {
+    console.log(new Date().getDay());
+    document !== undefined && setToday(new Date().getDay());
+  }, []);
   return (
     <StyleScheduleContainer>
       <StyleSchedule>
@@ -36,7 +41,7 @@ const ScheduleComponent: FC<ScheduleProps> = function ({
         {days.map((day, dn) => (
           <StyledDay
             key={day}
-            active={new Date().getDay() == dn + 1}
+            active={today == dn + 1}
             style={{ gridColumn: dn + 2 }}
           >
             {day}

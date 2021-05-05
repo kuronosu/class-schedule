@@ -1,4 +1,4 @@
-import { Dispatch, FC } from "react";
+import { Dispatch, FC, useEffect, useState } from "react";
 import styled from "styled-components";
 import Day from "./day";
 import HourCell from "./hour-cell";
@@ -21,7 +21,8 @@ const ScheduleComponent: FC<ScheduleProps> = function ({
   onEmptyCellClicked,
   configDispatch,
 }) {
-  const today = new Date().getDay();
+  const [today, setToday] = useState(new Date().getDay());
+  useEffect(() => setToday(new Date().getDay()), []);
   return (
     <StyleScheduleContainer>
       <StyleSchedule>
@@ -34,18 +35,15 @@ const ScheduleComponent: FC<ScheduleProps> = function ({
             ? "Save successful"
             : "Save failed"}
         </StyledSave>
-        {days.map((day, dn) => {
-          console.log(today, day, dn, today == dn + 1);
-          return (
-            <StyledDay
-              key={day}
-              active={today == dn + 1}
-              style={{ gridColumn: dn + 2 }}
-            >
-              {day}
-            </StyledDay>
-          );
-        })}
+        {days.map((day, dn) => (
+          <StyledDay
+            key={day}
+            active={today == dn + 1}
+            style={{ gridColumn: dn + 2 }}
+          >
+            {day}
+          </StyledDay>
+        ))}
         {hours.map((hour) => (
           <HourCell key={hour} hour={hour} is12={is12} />
         ))}

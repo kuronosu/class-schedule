@@ -34,15 +34,18 @@ const ScheduleComponent: FC<ScheduleProps> = function ({
             ? "Save successful"
             : "Save failed"}
         </StyledSave>
-        {days.map((day, dn) => (
-          <StyledDay
-            key={day}
-            active={today == dn + 1}
-            style={{ gridColumn: dn + 2 }}
-          >
-            {day}
-          </StyledDay>
-        ))}
+        {days.map((day, dn) => {
+          console.log(today, day, dn, today == dn + 1);
+          return (
+            <StyledDay
+              key={day}
+              active={today == dn + 1}
+              style={{ gridColumn: dn + 2 }}
+            >
+              {day}
+            </StyledDay>
+          );
+        })}
         {hours.map((hour) => (
           <HourCell key={hour} hour={hour} is12={is12} />
         ))}

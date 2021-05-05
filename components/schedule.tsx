@@ -38,7 +38,7 @@ const ScheduleComponent: FC<ScheduleProps> = function ({
           <StyledDay
             key={day}
             active={today == dn }
-            style={{ gridColumn: dn + 2 }}
+            style={{ gridColumn: dn + 1 }}
           >
             {day}
           </StyledDay>

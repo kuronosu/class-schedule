@@ -37,8 +37,8 @@ const ScheduleComponent: FC<ScheduleProps> = function ({
         {days.map((day, dn) => (
           <StyledDay
             key={day}
-            active={today == dn }
-            style={{ gridColumn: dn + 1 }}
+            active={today == dn + 1}
+            style={{ gridColumn: dn + 2 }}
           >
             {day}
           </StyledDay>
@@ -101,7 +101,7 @@ const StyleSchedule = styled.div`
   overflow: auto;
 `;
 
-const StyledDay = styled.span<{active: boolean}>`
+const StyledDay = styled.span<{ active: boolean }>`
   font-size: 12px;
   text-transform: uppercase;
   color: #99a1a7;
